@@ -10,6 +10,9 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody2D enemyRb;
     private PlayerAwareness playerAwarenessController;
     private Vector2 targetDirection;
+
+    public bool chase = true;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -21,7 +24,14 @@ public class EnemyMovement : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateTargetDirection();
-        RotateTowardsTarget();
+        if (chase)
+        {
+            RotateTowardsTarget();
+        }
+        else
+        {
+            RotateAwayTarget(); 
+        }
         SetVelocity();
         }
 
@@ -60,5 +70,33 @@ public class EnemyMovement : MonoBehaviour
         {
             enemyRb.velocity = transform.up * speed;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            if (!chase)
+            {
+                chase = true;
+            }
+            else
+            {
+                chase = false;
+            }
+        }
+    }
+
+    private void RotateAwayTarget()
+    {
+        if (targetDirection == Vector2.zero)
+        {
+            return;
+        }
+
+        Quaternion targetRotation = Quaternion.LookRotation(transform.forward, -targetDirection);
+        Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        enemyRb.SetRotation(rotation);
     }
 }
