@@ -99,4 +99,9 @@ public class EnemyMovement : MonoBehaviour
 
         enemyRb.SetRotation(rotation);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        RotateTowardsTarget();
+    }
 }
