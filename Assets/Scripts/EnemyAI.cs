@@ -5,11 +5,18 @@ using Pathfinding;
 
 public class EnemyAI : MonoBehaviour
 {
+    public enum EnemyState
+    {
+        Chase,
+        Flee
+    }
+
+    EnemyState _currentState = EnemyState.Chase;
 
     public Transform target;
 
     public float speed = 200f;
-    public float nextWaypointDistance = 3f;
+    public float nextWaypointDistance = 0.1f;
 
     Path path;
     int currentWaypoint = 0;
@@ -18,7 +25,6 @@ public class EnemyAI : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
 
-    // Start is called before the first frame update
     void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -27,9 +33,41 @@ public class EnemyAI : MonoBehaviour
         InvokeRepeating("UpdatePath", 0f, 0.1f);
     }
 
+    void FixedUpdate()
+    {
+        switch (_currentState)
+        {
+            case EnemyState.Chase:
+                chasePlayer();
+                break;
+            case EnemyState.Flee:
+                fleePlayer();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            if(_currentState == EnemyState.Chase)
+            {
+                Debug.Log("now flee");
+                _currentState = EnemyState.Flee;
+            }
+            else if(_currentState == EnemyState.Flee)
+            {
+                Debug.Log("now chase");
+                _currentState = EnemyState.Chase;
+            }
+        }
+    }
+
     void UpdatePath()
     {
-        if(seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
+        if (seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
     }
 
     void OnPathComplete(Path p)
@@ -41,8 +79,7 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void chasePlayer()
     {
         if (path == null) return;
 
@@ -61,5 +98,78 @@ public class EnemyAI : MonoBehaviour
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance) currentWaypoint++;
+    }
+
+    void fleePlayer()
+    {
+        if (path == null) return;
+
+        if (currentWaypoint >= path.vectorPath.Count)
+        {
+            reachedEndOfPath = true;
+            return;
+        }
+        else reachedEndOfPath = false;
+
+        Vector2 fleeDestination = fleePlayerDestination(target);
+
+        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - fleeDestination).normalized;
+        Vector2 force = speed * Time.deltaTime * direction;
+
+        rb.AddForce(force);
+
+        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
+
+        if (distance < nextWaypointDistance) currentWaypoint++;
+    }
+
+    static Vector2 fleePlayerDestination(Transform target)
+    {
+        int xRandom = Random.Range(0, 1);
+        int yRandom = Random.Range(0, 1);
+        Vector2 destination;
+        if (target.position.x < -2.5)
+        {
+            destination.x = 6;
+        }
+        else if(target.position.x > 2.5)
+        {
+            destination.x = -6;
+        }
+        else
+        {
+            if(xRandom < 0.5)
+            {
+                destination.x = 6;
+            }
+            else
+            {
+                destination.x = -6;
+            }
+        }
+
+        if (target.position.y < -2.5)
+        {
+            destination.y = 3;
+        }
+        else if (target.position.x > 2.5)
+        {
+            destination.y = -3;
+        }
+        else
+        {
+            if (yRandom < 0.5)
+            {
+                destination.y = 3;
+            }
+            else
+            {
+                destination.y = -3;
+            }
+        }
+
+        Debug.Log(destination);
+
+        return destination;
     }
 }

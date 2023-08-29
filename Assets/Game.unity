@@ -888,7 +888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAAAAIewKOEYjbgIAACgFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMFy2jAQ/RVG58LYTsFDby0Q0gMJE5rJxRdZXmMNsuSR5ADJ8O9dyTZ2XV8Q7+3bfbta+4twaSpgVumt5tlOZUB+TIg7k2+TnnyCCz0qeeCf0MW888wWLoj6mFdquUI8dDKjSrCas5/yKFxwgGAtea50ucmOsFLGGoRzKgwgpZV1aonQ14Rc8Ge6dJIrnqLYnT7xtAwmNzwykBZ0HzqfzYPFAz7hZhrErarTNJJaMkHLCjLnv1dG0SxwT7hsVWETLrHDNtJ1w5QQ3LT2iL1Wvv1DVYAG13/GKXbrLYWz7wgUwI+FdQWG6pc8N2Bbb5pe11zj2Jq05JdqZllSc2oMflBRu0LRfOFNNUl3//HT0NO5VuVTVzcMXA1bcHZ6pVdGjR0MewivB9b9nM5UnGgq4L0A+ay2WtUyQ9Lq2klrA9G6/3tvbVUAO/V4Y3UE1lU/+GB0S66Hm+/+shK8TB3lJ4nAQSg/cL8QoPFqfqNhvy6mTYGoc/Fm4A89DveqJR65Nhaptkvp7KWq1i6UbPzMXDe1XSktwcOt6QokFfa6xzR2fIUjblB2xDxS9wa1xVuuezFGEg/38UEwovbqfL8sU6jzDkzxUlvBJfSmHfGMc1opKZsNG86kkx1qnVM2kB1rnv27WiRO85yxMKeLOJoHaTidh1H8sIjjkC2BpemS+N3jEvukYt8YbceDtyb75BL3rPuwTLaaVn7bM03PW/5ZqsHIuczVgWkA+dJkuBsHjUXwtcw2GccBHcBaLv19k6+ECMVOkCX3RInvdHOxmiZ9loRU/ENZhyRk5b8kCXHwfZf3Gj44nF3xLtmN3P4CUEsDBBQAAAgIAAAAIeygar77bQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSeVJaWnKyYVqimbmRqUGSoa6poZG5sZm5uWGyZWpyUpKlUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAAIewKOEYjbgIAACgFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAAIeygar77bQAAAHgAAAAJACQAAAAAAAAAAAAAALsCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAcwMAAAAA
+    dataString: UEsDBBQAAAgIAAAAIeyUMiU7aAIAACEFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFlVMuS2jAQ/BVK55Cy2YBDbgmwbA4s1LKpvfgiy2OsQpZcksxri3/PSLax45wQPa/u1sifhEtTArNKrzVPNyoF8mNE3Jl8GXXBF7jQg5J7foM254OnNndJ1Oe8UcsV4qErM6oAqzn7KQ/CJQcIVpJnSher9AALZaxBOKPCAIa0sq5aIvQ5Ihf8Gc9dyRVPk8idbniaB6M7HhlIC7qXGn799hRMw3AyXY2DqClri+qaSjJBixJSJ6ArDb832WGdJlFak+FkMCUENw0vYq+l170vc9DghKecokzPBTkgkAM/5NaR7ldvs8yAbThpel1yjX7VbckvVZtYUHOsiZ2oqNygyXTmSdVNN//Fx6EPZ1oVL+3cMHAzbM7Z8Y1eGTW253IfXvaoe3/OVBxpIuAjB/mq1lpVMsWg1ZUrrQxMlt3fh7RFDuzY4TXVAViVneHB4HachrtXf1kIXiQu5J1EYC+UN9xvAmi8mt9I2O+JaVog6lj8MfBOD/2FagLPXBuLoUaldPQSVWmXSlbeM6emsgulJXi4IV2CpMJed9jGDq9wEOuNHUSeqXs6zfAm1r6IQYmHu/wgGIR26vy4LJOr8wZMvq2s4BI60i7wij4tlJT1hvU9acv2lc4o65UdKp7+u1okSrKMsTCjs2gyDZJwPA0n0dMsikI2B5Ykc+J3j0vUScWuJtrYg7cmu+YS96z9oozWmpZ+21NNz2t+K1TPci4ztWcaQG7rDg/ioHEIPst0lXI0aA/Wcunvm3zGRCh2hDR+NIq90tXFahp3XWJS8pOyDonJwn9CYuLgxy7vNJw4nN3wttmd3P8CUEsDBBQAAAgIAAAAIeygar77bQAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz0jM011FQSi9KLMgoBooYgjilmSkgdrSSeVJaWnKyYVqimbmRqUGSoa6poZG5sZm5uWGyZWpyUpKlUixQfUllQapfYm4qRE9AYklGWmZeSmZeup57UWaKO8hopdhaAFBLAQItABQAAAgIAAAAIeyUMiU7aAIAACEFAAALACQAAAAAAAAAAAAAAAAAAABncmFwaDAuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLAQItABQAAAgIAAAAIeygar77bQAAAHgAAAAJACQAAAAAAAAAAAAAALUCAABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwUGAAAAAAIAAgC4AAAAbQMAAAAA
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -1002,8 +1002,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512413601}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.05, y: 4.5841, z: 0}
-  m_LocalScale: {x: 1.4021026, y: 22, z: 1}
+  m_LocalPosition: {x: -0.05, y: 5.0907, z: 0}
+  m_LocalScale: {x: 2.415262, y: 22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1452305183}
@@ -1297,7 +1297,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.7884617
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1354,8 +1354,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 748766981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.2095, y: 0, z: 0}
-  m_LocalScale: {x: 2.521412, y: 10, z: 1}
+  m_LocalPosition: {x: 9.0398, y: 0, z: 0}
+  m_LocalScale: {x: 2.1755033, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1452305183}
@@ -1708,9 +1708,10 @@ GameObject:
   m_Component:
   - component: {fileID: 931074829}
   - component: {fileID: 931074830}
+  - component: {fileID: 931074831}
   m_Layer: 0
   m_Name: PlayerGFX
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1782,6 +1783,41 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &931074831
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 931074828}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6
 --- !u!1 &1387581765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,8 +2269,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573285186}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.5, y: -5.1332, z: 0}
-  m_LocalScale: {x: 0.73321366, y: 22, z: 1}
+  m_LocalPosition: {x: -0.5, y: -5.4972, z: 0}
+  m_LocalScale: {x: 1.3982778, y: 22, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1452305183}
@@ -2900,8 +2936,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2033976252}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.5193, y: 0, z: 0}
-  m_LocalScale: {x: 1.5260018, y: 10, z: 1}
+  m_LocalPosition: {x: -9.8198, y: 0, z: 0}
+  m_LocalScale: {x: 2.139202, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1452305183}
