@@ -25,8 +25,6 @@ public class EnemyAI : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
 
-    private bool borderCollide;
-
     void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -67,7 +65,6 @@ public class EnemyAI : MonoBehaviour
 
     void UpdatePath()
     {
-        Debug.Log(-target.position);
         if (_currentState == EnemyState.Chase)
         {
             if (seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
@@ -76,7 +73,17 @@ public class EnemyAI : MonoBehaviour
         else
         {
             // This is what controls the destination when the enemy flees the player
-            if (seeker.IsDone()) seeker.StartPath(rb.position, -target.position, OnPathComplete);
+            if (seeker.IsDone())
+            {
+                Vector3 desiredDistance;
+
+                if (rb.position == desiredDistance)
+                {
+                    desiredDistance = new Vector3(Random.Range(-8, 8), 0, Random.Range(-4, 4));
+                }
+                Vector3 targetToMoveTo = target.position + desiredDistance;
+                seeker.StartPath(rb.position, targetToMoveTo, OnPathComplete);
+            }
         }
     }
 
