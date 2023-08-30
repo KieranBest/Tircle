@@ -25,6 +25,8 @@ public class EnemyAI : MonoBehaviour
     Seeker seeker;
     Rigidbody2D rb;
 
+    private bool borderCollide;
+
     void Start()
     {
         seeker = GetComponent<Seeker>();
@@ -54,12 +56,10 @@ public class EnemyAI : MonoBehaviour
         {
             if(_currentState == EnemyState.Chase)
             {
-                Debug.Log("now flee");
                 _currentState = EnemyState.Flee;
             }
             else if(_currentState == EnemyState.Flee)
             {
-                Debug.Log("now chase");
                 _currentState = EnemyState.Chase;
             }
         }
@@ -111,7 +111,7 @@ public class EnemyAI : MonoBehaviour
         }
         else reachedEndOfPath = false;
 
-        Vector2 fleeDestination = fleePlayerDestination(target);
+        Vector2 fleeDestination = fleePlayerDestination(target, borderCollide);
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - fleeDestination).normalized;
         Vector2 force = speed * Time.deltaTime * direction;
@@ -123,10 +123,10 @@ public class EnemyAI : MonoBehaviour
         if (distance < nextWaypointDistance) currentWaypoint++;
     }
 
-    static Vector2 fleePlayerDestination(Transform target)
+    static Vector2 fleePlayerDestination(Transform target, bool borderCollide)
     {
-        int xRandom = Random.Range(0, 1);
-        int yRandom = Random.Range(0, 1);
+        int xRandom = Random.Range(0, 100);
+        int yRandom = Random.Range(0, 100);
         Vector2 destination;
         if (target.position.x < -2.5)
         {
@@ -138,7 +138,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            if(xRandom < 0.5)
+            if(xRandom < 50)
             {
                 destination.x = 6;
             }
@@ -158,7 +158,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            if (yRandom < 0.5)
+            if (yRandom < 50)
             {
                 destination.y = 3;
             }
@@ -168,8 +168,46 @@ public class EnemyAI : MonoBehaviour
             }
         }
 
+        if (borderCollide)
+        {
+            if(destination.x > -8)
+            {
+                destination.x = -7;
+            }
+            else
+            {
+                destination.x = 7;
+            }
+
+            if (destination.y > -4)
+            {
+                destination.x = -4;
+            }
+            else
+            {
+                destination.x = 4;
+            }
+        }
+
+
         Debug.Log(destination);
 
+
         return destination;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Border")
+        {
+            borderCollide = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Border")
+        {
+            borderCollide = false;
+        }
     }
 }
