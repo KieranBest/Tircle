@@ -67,7 +67,17 @@ public class EnemyAI : MonoBehaviour
 
     void UpdatePath()
     {
-        if (seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
+        Debug.Log(-target.position);
+        if (_currentState == EnemyState.Chase)
+        {
+            if (seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
+
+        }
+        else
+        {
+            // This is what controls the destination when the enemy flees the player
+            if (seeker.IsDone()) seeker.StartPath(rb.position, -target.position, OnPathComplete);
+        }
     }
 
     void OnPathComplete(Path p)
@@ -111,9 +121,7 @@ public class EnemyAI : MonoBehaviour
         }
         else reachedEndOfPath = false;
 
-        Vector2 fleeDestination = fleePlayerDestination(target, borderCollide);
-
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - fleeDestination).normalized;
+        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = speed * Time.deltaTime * direction;
 
         rb.AddForce(force);
@@ -121,93 +129,5 @@ public class EnemyAI : MonoBehaviour
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
         if (distance < nextWaypointDistance) currentWaypoint++;
-    }
-
-    static Vector2 fleePlayerDestination(Transform target, bool borderCollide)
-    {
-        int xRandom = Random.Range(0, 100);
-        int yRandom = Random.Range(0, 100);
-        Vector2 destination;
-        if (target.position.x < -2.5)
-        {
-            destination.x = 6;
-        }
-        else if(target.position.x > 2.5)
-        {
-            destination.x = -6;
-        }
-        else
-        {
-            if(xRandom < 50)
-            {
-                destination.x = 6;
-            }
-            else
-            {
-                destination.x = -6;
-            }
-        }
-
-        if (target.position.y < -2.5)
-        {
-            destination.y = 3;
-        }
-        else if (target.position.x > 2.5)
-        {
-            destination.y = -3;
-        }
-        else
-        {
-            if (yRandom < 50)
-            {
-                destination.y = 3;
-            }
-            else
-            {
-                destination.y = -3;
-            }
-        }
-
-        if (borderCollide)
-        {
-            if(destination.x > -8)
-            {
-                destination.x = -7;
-            }
-            else
-            {
-                destination.x = 7;
-            }
-
-            if (destination.y > -4)
-            {
-                destination.x = -4;
-            }
-            else
-            {
-                destination.x = 4;
-            }
-        }
-
-
-        Debug.Log(destination);
-
-
-        return destination;
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Border")
-        {
-            borderCollide = true;
-        }
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Border")
-        {
-            borderCollide = false;
-        }
     }
 }
