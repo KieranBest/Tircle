@@ -14,7 +14,7 @@ public class EnemyAI : MonoBehaviour
     EnemyState _currentState = EnemyState.Chase;
 
     public Transform target;
-
+    
     public float speed = 200f;
     public float nextWaypointDistance = 0.1f;
 
@@ -22,8 +22,47 @@ public class EnemyAI : MonoBehaviour
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
 
+
+    List<Vector2> inaccessibleTargets = new List<Vector2> { 
+        new Vector2(0,0),
+        new Vector2(1,0),
+        new Vector2(0,1),
+        new Vector2(1,1),
+        new Vector2(-1,0),
+        new Vector2(0,-1),
+        new Vector2(-1,-1),
+        new Vector2(0,4),
+        new Vector2(0,-4),
+        new Vector2(-3,2),
+        new Vector2(-3,1),
+        new Vector2(-3,0),
+        new Vector2(-3,-1),
+        new Vector2(-3,-2),
+        new Vector2(3,2),
+        new Vector2(3,1),
+        new Vector2(3,0),
+        new Vector2(3,-1),
+        new Vector2(3,-2),
+        new Vector2(-4,2),
+        new Vector2(-4,1),
+        new Vector2(-4,0),
+        new Vector2(-4,-1),
+        new Vector2(-4,-2),
+        new Vector2(4,2),
+        new Vector2(4,1),
+        new Vector2(4,0),
+        new Vector2(4,-1),
+        new Vector2(4,-2),
+    };
+    private float Threshold = 5f;
+    private float xTarget;
+    private float yTarget;
+
     Seeker seeker;
     Rigidbody2D rb;
+
+    private Vector2 targetPosition;
+    private Vector2 oldTarget;
 
     void Start()
     {
@@ -41,11 +80,27 @@ public class EnemyAI : MonoBehaviour
                 chasePlayer();
                 break;
             case EnemyState.Flee:
+                if(Vector2.Distance(rb.position, targetPosition) <= Threshold) {
+                    oldTarget = 
+                    targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
+                    while (inaccessibleTargets.Contains(targetPosition)) targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
+                }
+                if(Vector2.Distance(rb.position, target.position) <= Threshold){
+                    xTarget = rb.position.x + (3 * (rb.position.x - target.position.x));
+                    yTarget = rb.position.y + (3 * (rb.position.y - target.position.y));
+
+                    // if reaches a corner redirect.
+
+                    targetPosition = new Vector2(xTarget, yTarget);
+                }
                 fleePlayer();
                 break;
             default:
                 break;
         }
+        Debug.Log(targetPosition);
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -54,6 +109,7 @@ public class EnemyAI : MonoBehaviour
         {
             if(_currentState == EnemyState.Chase)
             {
+                targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
                 _currentState = EnemyState.Flee;
             }
             else if(_currentState == EnemyState.Flee)
@@ -75,14 +131,11 @@ public class EnemyAI : MonoBehaviour
             // This is what controls the destination when the enemy flees the player
             if (seeker.IsDone())
             {
-                Vector3 desiredDistance;
-
-                if (rb.position == desiredDistance)
+                if(rb.position == targetPosition)
                 {
-                    desiredDistance = new Vector3(Random.Range(-8, 8), 0, Random.Range(-4, 4));
+                    targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
                 }
-                Vector3 targetToMoveTo = target.position + desiredDistance;
-                seeker.StartPath(rb.position, targetToMoveTo, OnPathComplete);
+                seeker.StartPath(rb.position, targetPosition, OnPathComplete);
             }
         }
     }
