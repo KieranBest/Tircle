@@ -5,23 +5,29 @@ using Pathfinding;
 
 public class EnemyAI : MonoBehaviour
 {
+    public Transform target;
+    Seeker seeker;
+    Rigidbody2D rb;
+    Path path;
+    
+    private int currentWaypoint = 0;
+    private bool reachedEndOfPath = false;
+    private float Threshold = 5f;
+    private float xTarget;
+    private float yTarget;
+    private float angledDistance;
+    private Vector2 targetPosition;
+    private bool cornerTargetModified;
+
+    public float speed = 200f;
+    public float nextWaypointDistance = 0.1f;
+
     public enum EnemyState
     {
         Chase,
         Flee
     }
-
     EnemyState _currentState = EnemyState.Chase;
-
-    public Transform target;
-    
-    public float speed = 200f;
-    public float nextWaypointDistance = 0.1f;
-
-    Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
-
 
     List<Vector2> inaccessibleTargets = new List<Vector2> { 
         new Vector2(0,0),
@@ -54,21 +60,19 @@ public class EnemyAI : MonoBehaviour
         new Vector2(4,-1),
         new Vector2(4,-2),
     };
-    private float Threshold = 5f;
-    private float xTarget;
-    private float yTarget;
 
-    Seeker seeker;
-    Rigidbody2D rb;
-
-    private Vector2 targetPosition;
-    private Vector2 oldTarget;
+    List<Vector2> maxCorner = new List<Vector2>
+    {
+        new Vector2(-9,-4),
+        new Vector2(-9,4),
+        new Vector2(9,-4),
+        new Vector2(9,4)
+    };
 
     void Start()
     {
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
-
         InvokeRepeating("UpdatePath", 0f, 0.1f);
     }
 
@@ -77,30 +81,76 @@ public class EnemyAI : MonoBehaviour
         switch (_currentState)
         {
             case EnemyState.Chase:
-                chasePlayer();
+                enemyMovement();
                 break;
             case EnemyState.Flee:
-                if(Vector2.Distance(rb.position, targetPosition) <= Threshold) {
-                    oldTarget = 
-                    targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
-                    while (inaccessibleTargets.Contains(targetPosition)) targetPosition = new Vector2(Random.Range(-8, 8), Random.Range(-4, 4));
+                // Distance between enemy and enemy's target destination
+                if(Vector2.Distance(rb.position, targetPosition) <= (Threshold / 10)) {
+                    targetPosition = new Vector2(Random.Range(-9, 9), Random.Range(-4, 4));
+                    while (inaccessibleTargets.Contains(targetPosition)) targetPosition = new Vector2(Random.Range(-9, 9), Random.Range(-4, 4));
+                    //Debug.Log("target " + targetPosition);
                 }
-                if(Vector2.Distance(rb.position, target.position) <= Threshold){
-                    xTarget = rb.position.x + (3 * (rb.position.x - target.position.x));
-                    yTarget = rb.position.y + (3 * (rb.position.y - target.position.y));
-
-                    // if reaches a corner redirect.
-
+                // Distance between enemy and players location
+                if(Vector2.Distance(rb.position, target.position) <= (Threshold/3) && !cornerTargetModified)
+                {
+                    xTarget = (float)Clamp(System.Math.Round(rb.position.x + (3 * (rb.position.x - target.position.x))),-9,9);
+                    yTarget = (float)Clamp(System.Math.Round(rb.position.y + (3 * (rb.position.y - target.position.y))),-4,4);
                     targetPosition = new Vector2(xTarget, yTarget);
+                    //Debug.Log("Close " + targetPosition);
                 }
-                fleePlayer();
+                // Distance between enemy and corner of map
+                foreach (Vector2 corner in maxCorner)
+                {
+                    if (Vector2.Distance(rb.position, corner) <= (Threshold / 5) && !cornerTargetModified)
+                    {
+                        cornerTargetModified = true;
+                        angledDistance = Mathf.Rad2Deg * (Mathf.Atan2(rb.position.y - target.position.y, rb.position.x - target.position.x));
+                        if (angledDistance <= -135 && angledDistance > -180)
+                        {
+                            yTarget = Clamp(yTarget + 3, -4, 4);
+                        }
+                        if (angledDistance <= -90 && angledDistance > -135)
+                        {
+                            xTarget = Clamp(xTarget + 3, -9, 9);
+                        }
+                        if (angledDistance <= -45 && angledDistance > -90)
+                        {
+                            xTarget = Clamp(xTarget - 3, -9, 9);
+                        }
+                        if (angledDistance <= 0 && angledDistance > -45)
+                        {
+                            yTarget = Clamp(yTarget + 3, -4, 4);
+                        }
+                        if (angledDistance <= 45 && angledDistance > 0)
+                        {
+                            yTarget = Clamp(yTarget - 3, -4, 4);
+                        }
+                        if (angledDistance <= 90 && angledDistance > 45)
+                        {
+                            xTarget = Clamp(xTarget - 3, -9, 9);
+                        }
+                        if (angledDistance <= 135 && angledDistance > 90)
+                        {
+                            xTarget = Clamp(xTarget + 3, -9, 9);
+                        }
+                        if (angledDistance <= 180 && angledDistance > 135)
+                        {
+                            yTarget = Clamp(yTarget - 3, -4, 4);
+                        }
+                        targetPosition = new Vector2(xTarget, yTarget);
+                        //Debug.Log("corner (" + xTarget + "," + yTarget + ")");
+                    }
+                    if (Vector2.Distance(rb.position, targetPosition) <= (Threshold) && cornerTargetModified)
+                    {
+                        cornerTargetModified = false;
+                    }
+                    Debug.Log(cornerTargetModified);
+                }
+                enemyMovement();
                 break;
             default:
                 break;
         }
-        Debug.Log(targetPosition);
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -124,7 +174,6 @@ public class EnemyAI : MonoBehaviour
         if (_currentState == EnemyState.Chase)
         {
             if (seeker.IsDone()) seeker.StartPath(rb.position, target.position, OnPathComplete);
-
         }
         else
         {
@@ -149,45 +198,26 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    void chasePlayer()
+    void enemyMovement()
     {
         if (path == null) return;
-
         if (currentWaypoint >= path.vectorPath.Count)
         {
             reachedEndOfPath = true;
             return;
         }
         else reachedEndOfPath = false;
-
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = speed * Time.deltaTime * direction;
-
         rb.AddForce(force);
-
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-
         if (distance < nextWaypointDistance) currentWaypoint++;
     }
 
-    void fleePlayer()
+    public static T Clamp<T>(T value, T min, T max) where T : System.IComparable<T>
     {
-        if (path == null) return;
-
-        if (currentWaypoint >= path.vectorPath.Count)
-        {
-            reachedEndOfPath = true;
-            return;
-        }
-        else reachedEndOfPath = false;
-
-        Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-        Vector2 force = speed * Time.deltaTime * direction;
-
-        rb.AddForce(force);
-
-        float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
-
-        if (distance < nextWaypointDistance) currentWaypoint++;
+        if (value.CompareTo(min) < 0) return min;
+        if (value.CompareTo(max) > 0) return max;
+        return value;
     }
 }
