@@ -87,7 +87,7 @@ public class EnemyAI : MonoBehaviour
                 // Distance between enemy and enemy's target destination
                 if(Vector2.Distance(rb.position, targetPosition) <= (Threshold / 10)) {
                     targetPosition = new Vector2(Random.Range(-9, 9), Random.Range(-4, 4));
-                    while (inaccessibleTargets.Contains(targetPosition)) targetPosition = new Vector2(Random.Range(-9, 9), Random.Range(-4, 4));
+                    while (inaccessibleTargets.Contains(targetPosition)) targetPosition = new Vector2(Random.Range((float)-8.5, (float)8.5), Random.Range((float)-3.5, (float)3.5));
                     //Debug.Log("target " + targetPosition);
                 }
                 // Distance between enemy and players location
